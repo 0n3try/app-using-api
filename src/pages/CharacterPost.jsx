@@ -5,8 +5,14 @@ const Character = () => {
   console.log(data);
 
   return (
-    <div className="container flex flex-col items-center p-4 mt-6">
-      <img className="rounded-md w-[300px]" src={data.image} alt={data.name} />
+    <div className="container flex flex-col items-center px-4 pt-10 ">
+      <div className="pt-10">
+        <img
+          className="rounded-md overflow-hidden w-[300px]"
+          src={data.image}
+          alt={data.name}
+        />
+      </div>
       <h1 className="text-cyan-500 text-3xl text-center">{data.name}</h1>
       <section className="text-2xl mt-2">
         <p>Status: {data.status}</p>

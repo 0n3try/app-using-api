@@ -6,8 +6,8 @@ const Home = () => {
 
   return (
     <div>
-      <div className="container p-4 text-center">
-        <h1 className="text-2xl text-white uppercase flex flex-col">
+      <div className="container px-4 text-center pt-10 ">
+        <h1 className="text-2xl text-white uppercase flex flex-col pt-10">
           this page use
           <strong className="text-cyan-500 text-3xl">Rick and Morty api</strong>
         </h1>
@@ -15,11 +15,11 @@ const Home = () => {
           {data.map((char) => (
             <Link
               to={`/characters/${char.id}`}
-              className="text-2xl text-cyan-600 flex flex-col mt-2"
+              className="text-2xl text-cyan-600 flex items-center flex-col mt-2"
               key={char.id}
             >
               <h1 className="my-2">{char.name}</h1>
-              <img src={`${char.image}`} alt="" />
+              <img className="rounded-md w-[300px]" src={char.image} alt="" />
             </Link>
           ))}
         </main>
