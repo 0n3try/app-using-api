@@ -1,11 +1,29 @@
+import { useState, useEffect, useCallback } from "react";
 import { useLoaderData } from "react-router-dom";
 
 const Episodes = () => {
-  const { data } = useLoaderData();
+  const [episodes, setEpisodes] = useState([]);
+  const [pagina, setPagina] = useState(1);
 
-  const episodes = data.results;
+  useEffect(() => {
+    const obtenerPersonajes = async () => {
+      try {
+        const res = await fetch(
+          `https://rickandmortyapi.com/api/character/?page=${pagina}`
+        );
+        const datos = await res.json();
+        setEpisodes(datos.results);
+      } catch (error) {
+        console.log(("Error al obtener los datos de la api", error));
+      }
+    };
+    obtenerPersonajes();
+  }, [pagina]);
 
-  console.log(data);
+  const cambiarPagina = (nuevaPagina) => {
+    setPagina(nuevaPagina);
+  };
+
   return (
     <div>
       <article className="container pt-10 p-4">
@@ -17,16 +35,25 @@ const Episodes = () => {
             </li>
           </ul>
         ))}
+        <div className="container flex justify-center gap-6 my-10">
+          <button
+            className="p-2 bg-cyan-500 rounded-md"
+            onClick={() => cambiarPagina(pagina - 1)}
+            disabled={pagina === 1}
+          >
+            Anterior
+          </button>
+          <button
+            className="p-2 bg-cyan-500 rounded-md"
+            onClick={() => cambiarPagina(pagina + 1)}
+            disabled={pagina === 42}
+          >
+            Siguiente
+          </button>
+        </div>
       </article>
     </div>
   );
 };
 
 export default Episodes;
-
-export const epiLoader = async () => {
-  const res = await fetch("https://rickandmortyapi.com/api/episode");
-  const data = await res.json();
-
-  return { data };
-};

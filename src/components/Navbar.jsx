@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className=" fixed z-10 flex p-4 container justify-between   ">
+    <nav className=" fixed z-10 flex p-4 container justify-between bg-gray-950   ">
       <NavLink
         to="/"
         className="bg-cyan-500  rounded-md p-2 hover:bg-cyan-700 transition duration-500"

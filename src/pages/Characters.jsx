@@ -1,13 +1,33 @@
-import { useLoaderData } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 const Characters = () => {
-  const { characterData } = useLoaderData();
-  const data = characterData.results;
+  const [personajes, setPersonajes] = useState([]);
+  const [paginaActual, setPaginaActual] = useState(1);
+
+  useEffect(() => {
+    const obtenerPersonajes = async () => {
+      try {
+        const respuesta = await fetch(
+          `https://rickandmortyapi.com/api/character/?page=${paginaActual}`
+        );
+        const datos = await respuesta.json();
+        setPersonajes(datos.results);
+      } catch (error) {
+        console.error("Error al obtener datos de la API", error);
+      }
+    };
+
+    obtenerPersonajes();
+  }, [paginaActual]);
+
+  const cambiarPagina = (nuevaPagina) => {
+    setPaginaActual(nuevaPagina);
+  };
 
   return (
     <div className="container p-4 ">
       <section className="mt-10">
-        {data.map((char) => (
+        {personajes.map((char) => (
           <Link
             to={`${char.id}`}
             key={char.id}
@@ -21,16 +41,25 @@ const Characters = () => {
             />
           </Link>
         ))}
+        <div className="container flex justify-center gap-4 my-10">
+          <button
+            className="p-2 bg-cyan-500 rounded-md"
+            onClick={() => cambiarPagina(paginaActual - 1)}
+            disabled={paginaActual === 1}
+          >
+            Anterior
+          </button>
+          <button
+            className="p-2 bg-cyan-500 rounded-md"
+            onClick={() => cambiarPagina(paginaActual + 1)}
+            disabled={paginaActual === 42}
+          >
+            Siguiente
+          </button>
+        </div>
       </section>
     </div>
   );
 };
 
 export default Characters;
-
-export const charactersLoader = async () => {
-  const res = await fetch(`https://rickandmortyapi.com/api/character/`);
-  const characterData = await res.json();
-
-  return { characterData };
-};
